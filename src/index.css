@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark-primary: #0D0D0D;
+  --color-dark-secondary: #1A1A1A;
+  --color-dark-tertiary: #252525;
+  --color-dark-card: #1E1E1E;
+  --color-gold-primary: #D4A017;
+  --color-gold-secondary: #F5C842;
+  --color-gold-light: #FFE082;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #A0A0A0;
+  --color-text-muted: #707070;
+  --color-error: #EF4444;
+  --color-success: #22C55E;
+  --color-info: #3B82F6;
+
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #D4A017 #1A1A1A;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #1A1A1A;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #D4A017;
+  border-radius: 3px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0D0D0D;
+  color: #F0F0F0;
+  font-family: "Inter", sans-serif;
+}
+
+::selection {
+  background: #D4A017;
+  color: #0D0D0D;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.4); }
+  50% { box-shadow: 0 0 20px 10px rgba(212, 160, 23, 0.1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #D4A017, #F5C842, #FFE082, #F5C842, #D4A017);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4A017, #F5C842);
+}
+
+.gold-border {
+  border: 1px solid rgba(212, 160, 23, 0.3);
+}
+
+.glass-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+}
