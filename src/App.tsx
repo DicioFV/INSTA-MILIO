@@ -1,141 +1,208 @@
-import { useStore } from './store/useStore';
-import { useNotifications } from './hooks/useNotifications';
-import LoginPage from './components/LoginPage';
-import Sidebar from './components/Sidebar';
-import DashboardPage from './pages/DashboardPage';
-import AgendaPage from './pages/AgendaPage';
-import TasksPage from './pages/TasksPage';
-import RemindersPage from './pages/RemindersPage';
-import HabitsPage from './pages/HabitsPage';
-import FinancePage from './pages/FinancePage';
-import FamilyPage from './pages/FamilyPage';
-import NotesPage from './pages/NotesPage';
-import ProductivityPage from './pages/ProductivityPage';
-import AssistantPage from './pages/AssistantPage';
-import UsersPage from './pages/UsersPage';
-import SettingsPage from './pages/SettingsPage';
-import WhatsAppPage from './pages/WhatsAppPage';
-import DebtManagerPage from './pages/DebtManagerPage';
-import InvestmentsPage from './pages/InvestmentsPage';
-import BackupPage from './pages/BackupPage';
-import ReportsPage from './pages/ReportsPage';
-import { Bell, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import ProvasSociais from './components/ProvasSociais';
+import ComoFuncionaSection from './components/ComoFuncionaSection';
+import ModulosSection from './components/ModulosSection';
+import InstaquiSection from './components/InstaquiSection';
+import PlanoConteudo from './components/PlanoConteudo';
+import AlgoritmoSection from './components/AlgoritmoSection';
+import AgenteSection from './components/AgenteSection';
+import CronogramaSection from './components/CronogramaSection';
+import DepoimentosSection from './components/DepoimentosSection';
+import AntesDepoisSection from './components/AntesDepoisSection';
+import ErrosSection from './components/ErrosSection';
+import ViraisSection from './components/ViraisSection';
+import SeriesSection from './components/SeriesSection';
+import FerramentasSection from './components/FerramentasSection';
+import RecursosSection from './components/RecursosSection';
+import AnalisePerfilSection from './components/AnalisePerfilSection';
+import FAQSection from './components/FAQSection';
+import AgenteIA from './components/AgenteIA';
+import LoginModal from './components/LoginModal';
+import DashboardVIP from './components/DashboardVIP';
+import ParticlesBackground from './components/ParticlesBackground';
+import FloatingCTA from './components/FloatingCTA';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import OnboardingTour from './components/OnboardingTour';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
+import ShareButtons from './components/ShareButtons';
+import Footer from './components/Footer';
+import { useToast } from './components/Toast';
+import { useAchievement, ACHIEVEMENTS } from './components/AchievementPopup';
 
-function AppContent() {
-  const { currentPage, currentUser, reminders, setCurrentPage } = useStore();
-  const pendingReminders = reminders.filter(r => r.userId === currentUser?.id && !r.done);
+function App() {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+  const { showToast } = useToast();
+  const { unlockAchievement } = useAchievement();
   
-  // Initialize notification system
-  useNotifications();
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // Refs for keyboard shortcuts
+  const agenteTriggerRef = useRef<(() => void) | null>(null);
+  const themeTriggerRef = useRef<(() => void) | null>(null);
 
-  const pages: Record<string, React.ReactNode> = {
-    dashboard: <DashboardPage />,
-    agenda: <AgendaPage />,
-    tasks: <TasksPage />,
-    reminders: <RemindersPage />,
-    habits: <HabitsPage />,
-    finance: <FinancePage />,
-    debts: <DebtManagerPage />,
-    investments: <InvestmentsPage />,
-    backup: <BackupPage />,
-    reports: <ReportsPage />,
-    family: <FamilyPage />,
-    notes: <NotesPage />,
-    productivity: <ProductivityPage />,
-    assistant: <AssistantPage />,
-    users: <UsersPage />,
-    settings: <SettingsPage />,
-    whatsapp: <WhatsAppPage />,
+  // Conquista de primeira visita
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      unlockAchievement(ACHIEVEMENTS.FIRST_VISIT);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [unlockAchievement]);
+
+  // Restaurar sessão do localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('im-user');
+    if (saved) {
+      try {
+        const user = JSON.parse(saved);
+        if (user.isLoggedIn) {
+          setIsLoggedIn(true);
+          setUserName(user.name);
+        }
+      } catch {
+        // Ignorar erro de parse
+      }
+    }
+  }, []);
+
+  const handleLogin = (email: string, name: string) => {
+    setIsLoggedIn(true);
+    setUserName(name);
+    localStorage.setItem('im-user', JSON.stringify({ email, name, isLoggedIn: true }));
+    showToast('success', 'Login realizado!', `Bem-vindo, ${name}! 👑`);
+    unlockAchievement(ACHIEVEMENTS.VIP_LOGIN);
   };
 
-  const pageTitle: Record<string, string> = {
-    dashboard: 'Dashboard',
-    agenda: 'Agenda',
-    tasks: 'Tarefas',
-    reminders: 'Lembretes',
-    habits: 'Hábitos',
-    finance: 'Financeiro',
-    debts: 'Gestor de Dívidas',
-    investments: 'Investimentos',
-    backup: 'Backup & Restauração',
-    reports: 'Relatórios',
-    family: 'Família',
-    notes: 'Notas',
-    productivity: 'Produtividade',
-    assistant: 'DOLA IA',
-    users: 'Usuários',
-    settings: 'Configurações',
-    whatsapp: 'WhatsApp',
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserName('');
+    localStorage.removeItem('im-user');
+    showToast('info', 'Você saiu', 'Até a próxima! 👋');
+  };
+
+  const handleLoginClick = () => {
+    if (isLoggedIn) {
+      setIsDashboardOpen(true);
+    } else {
+      setIsLoginOpen(true);
+    }
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-dola-bg">
-      <Sidebar />
+    <div className="min-h-screen bg-dark-primary text-text-primary relative">
+      {/* Partículas de fundo */}
+      <ParticlesBackground />
 
-      <main className="flex-1 lg:ml-64 overflow-hidden flex flex-col">
-        {/* Top bar */}
-        <header className="h-16 shrink-0 flex items-center justify-between px-4 sm:px-6 border-b border-dola-border/50 bg-dola-bg/80 backdrop-blur-xl">
-          <div className="flex items-center gap-4 ml-12 lg:ml-0">
-            <h2 className="text-sm font-semibold text-dola-text hidden sm:block">{pageTitle[currentPage]}</h2>
-          </div>
+      {/* Header Fixo */}
+      <Header
+        onLoginClick={handleLoginClick}
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+      />
 
-          <div className="flex items-center gap-2">
-            {/* Search */}
-            <div className="relative">
-              <button onClick={() => setShowSearch(!showSearch)} className="p-2 rounded-xl hover:bg-dola-border/30 text-dola-muted transition-colors">
-                <Search size={18} />
-              </button>
-              {showSearch && (
-                <div className="absolute right-0 top-12 w-72 glass-strong rounded-2xl p-3 animate-slide-up z-50">
-                  <input
-                    autoFocus
-                    value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Buscar..."
-                    className="!text-sm"
-                    onKeyDown={e => {
-                      if (e.key === 'Escape') { setShowSearch(false); setSearchQuery(''); }
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+      {/* 1. Hero */}
+      <Hero />
 
-            {/* Notifications */}
-            <button
-              onClick={() => setCurrentPage('reminders')}
-              className="relative p-2 rounded-xl hover:bg-dola-border/30 text-dola-muted transition-colors"
-            >
-              <Bell size={18} />
-              {pendingReminders.length > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-dola-danger text-white text-[9px] font-bold flex items-center justify-center rounded-full min-w-[18px] h-[18px]">
-                  {pendingReminders.length}
-                </span>
-              )}
-            </button>
+      {/* 2. Prova Social / Números Animados */}
+      <ProvasSociais />
 
-            {/* User */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-dola-accent to-dola-pink flex items-center justify-center text-white text-xs font-bold">
-              {currentUser?.name?.charAt(0)}
-            </div>
-          </div>
-        </header>
+      {/* 2.5 Como Funciona */}
+      <ComoFuncionaSection />
 
-        {/* Page content */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-          {pages[currentPage] || <DashboardPage />}
-        </div>
-      </main>
+      {/* 3. Os 7 Módulos */}
+      <ModulosSection />
+
+      {/* 3.5 InstAqui - Guia do Instagram */}
+      <InstaquiSection />
+
+      {/* 4. Plano de Conteúdo por Perfil */}
+      <PlanoConteudo />
+
+      {/* 5. Cronograma 60 Dias */}
+      <div id="cronograma">
+        <CronogramaSection />
+      </div>
+
+      {/* 5.5 Depoimentos */}
+      <DepoimentosSection />
+
+      {/* 6. Sinais do Algoritmo 2026 */}
+      <AlgoritmoSection />
+
+      {/* 6.5 Agente IA - Seção Dedicada */}
+      <AgenteSection />
+
+      {/* 7. Análise de Perfil */}
+      <AnalisePerfilSection />
+
+      {/* 7.5 Antes vs Depois */}
+      <AntesDepoisSection />
+
+      {/* 8. Erros que Travam o Crescimento */}
+      <ErrosSection />
+
+      {/* 9. Vídeos Virais + YouTube */}
+      <ViraisSection />
+
+      {/* 10. As 5 Séries Fixas */}
+      <SeriesSection />
+
+      {/* 10.5 Ferramentas Interativas */}
+      <FerramentasSection />
+
+      {/* 11. Ferramentas e Recursos */}
+      <RecursosSection
+        isLoggedIn={isLoggedIn}
+        onLoginClick={() => setIsLoginOpen(true)}
+      />
+
+      {/* 12. FAQ */}
+      <FAQSection />
+
+      {/* 13. Footer */}
+      <Footer />
+
+      {/* Agente IA - Botão Flutuante */}
+      <AgenteIA />
+
+      {/* CTA Flutuante */}
+      <FloatingCTA />
+
+      {/* Theme Switcher */}
+      <ThemeSwitcher />
+
+      {/* Share Buttons */}
+      <ShareButtons />
+
+      {/* Keyboard Shortcuts */}
+      <KeyboardShortcuts 
+        onOpenAgent={() => agenteTriggerRef.current?.()}
+        onOpenTheme={() => themeTriggerRef.current?.()}
+      />
+
+      {/* Onboarding Tour */}
+      <OnboardingTour />
+
+      {/* Modal de Login */}
+      <LoginModal
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
+      />
+
+      {/* Dashboard VIP */}
+      <DashboardVIP
+        isOpen={isDashboardOpen}
+        onClose={() => setIsDashboardOpen(false)}
+        userName={userName}
+      />
     </div>
   );
 }
 
-export default function App() {
-  const { isAuthenticated } = useStore();
-
-  if (!isAuthenticated) return <LoginPage />;
-  return <AppContent />;
-}
+export default App;
