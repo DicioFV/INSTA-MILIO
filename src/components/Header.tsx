@@ -16,7 +16,6 @@ const navItems = [
   { label: 'Cronograma', href: '/cronograma' },
   { label: 'Ferramentas', href: '/ferramentas' },
   { label: 'Análise', href: '/analise' },
-  { label: 'Virais', href: '/virais' },
 ];
 
 export default function Header({ onLoginClick, isLoggedIn, onLogout: _onLogout }: HeaderProps) {
@@ -77,13 +76,23 @@ export default function Header({ onLoginClick, isLoggedIn, onLogout: _onLogout }
 
           {/* CTAs */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={onLoginClick}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-text-secondary hover:text-[var(--theme-primary)] transition-colors border border-white/10 rounded-full hover:border-[var(--theme-primary)]/30"
-            >
-              <LogIn size={16} />
-              {isLoggedIn ? 'Área VIP' : 'Login VIP'}
-            </button>
+            {isLoggedIn ? (
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-2 px-4 py-2 text-sm text-text-secondary hover:text-[var(--theme-primary)] transition-colors border border-white/10 rounded-full hover:border-[var(--theme-primary)]/30"
+              >
+                <LogIn size={16} />
+                Meu Dashboard
+              </Link>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="flex items-center gap-2 px-4 py-2 text-sm text-text-secondary hover:text-[var(--theme-primary)] transition-colors border border-white/10 rounded-full hover:border-[var(--theme-primary)]/30"
+              >
+                <LogIn size={16} />
+                Login VIP
+              </button>
+            )}
             <Link
               to="/modulos"
               className="flex items-center gap-2 px-5 py-2.5 text-sm font-montserrat font-bold text-dark-primary rounded-full hover:opacity-90 transition-all"
@@ -128,13 +137,23 @@ export default function Header({ onLoginClick, isLoggedIn, onLogout: _onLogout }
                 </Link>
               ))}
               <div className="pt-4 flex flex-col gap-3">
-                <button
-                  onClick={() => { onLoginClick(); setMobileOpen(false); }}
-                  className="flex items-center justify-center gap-2 px-4 py-3 text-sm text-text-secondary border border-white/10 rounded-full"
-                >
-                  <LogIn size={16} />
-                  {isLoggedIn ? 'Área VIP' : 'Login VIP'}
-                </button>
+                {isLoggedIn ? (
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm text-text-secondary border border-white/10 rounded-full"
+                  >
+                    <LogIn size={16} />
+                    Meu Dashboard
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => { onLoginClick(); setMobileOpen(false); }}
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm text-text-secondary border border-white/10 rounded-full"
+                  >
+                    <LogIn size={16} />
+                    Login VIP
+                  </button>
+                )}
                 <Link
                   to="/modulos"
                   className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-montserrat font-bold text-dark-primary rounded-full"

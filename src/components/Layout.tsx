@@ -7,6 +7,7 @@ import AgenteIA from './AgenteIA';
 import ThemeSwitcher from './ThemeSwitcher';
 import ShareButtons from './ShareButtons';
 import KeyboardShortcuts from './KeyboardShortcuts';
+import PWAInstallPrompt from './PWAInstallPrompt';
 import LoginModal from './LoginModal';
 import DashboardVIP from './DashboardVIP';
 import OnboardingTour from './OnboardingTour';
@@ -100,6 +101,7 @@ export default function Layout({ children }: LayoutProps) {
         onOpenAgent={() => {}}
         onOpenTheme={() => {}}
       />
+      <PWAInstallPrompt />
 
       {/* Modals */}
       <OnboardingTour />

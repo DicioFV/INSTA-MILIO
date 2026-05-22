@@ -9,6 +9,7 @@ import AnalisePage from './pages/AnalisePage';
 import ViraisPage from './pages/ViraisPage';
 import RecursosPage from './pages/RecursosPage';
 import FAQPage from './pages/FAQPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/virais" element={<ViraisPage />} />
           <Route path="/recursos" element={<RecursosPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

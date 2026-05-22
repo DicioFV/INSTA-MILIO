@@ -4,6 +4,7 @@ import GeradorLegendas from './GeradorLegendas';
 import SimuladorCrescimento from './SimuladorCrescimento';
 import GeradorHashtags from './GeradorHashtags';
 import QuizInstagram from './QuizInstagram';
+import AudioPlayer from './AudioPlayer';
 
 export default function FerramentasSection() {
   return (
@@ -74,22 +75,16 @@ export default function FerramentasSection() {
             <QuizInstagram />
           </motion.div>
 
-          {/* Coming Soon Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            className="glass-card rounded-xl p-4 flex items-center gap-3 opacity-60"
           >
-            <div className="w-12 h-12 rounded-xl bg-dark-tertiary flex items-center justify-center">
-              <span className="text-2xl">🔮</span>
-            </div>
-            <div>
-              <h4 className="font-montserrat font-bold text-text-primary">Em Breve...</h4>
-              <p className="text-text-muted text-sm">Mais ferramentas chegando</p>
-            </div>
+            <AudioPlayer />
           </motion.div>
+
+          
         </div>
       </div>
     </section>
