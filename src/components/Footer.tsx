@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Heart, ArrowUp, Check } from 'lucide-react';
 
 export default function Footer() {
@@ -18,13 +19,13 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contato" className="bg-dark-secondary border-t border-white/5 relative">
+    <footer className="bg-dark-secondary border-t border-white/5 relative">
       {/* Newsletter */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="glass-card rounded-2xl p-8 sm:p-12 text-center mb-16">
           <span className="text-4xl mb-4 block">📬</span>
           <h3 className="font-playfair text-2xl sm:text-3xl font-bold text-text-primary mb-3">
-            Receba Dicas <span className="text-gold-primary">Semanais</span>
+            Receba Dicas <span className="text-[var(--theme-primary)]">Semanais</span>
           </h3>
           <p className="text-text-secondary mb-6 max-w-lg mx-auto">
             Toda segunda-feira, um email com as melhores estratégias para crescer no Instagram
@@ -44,13 +45,14 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
-                  className="w-full pl-12 pr-4 py-3 bg-dark-primary border border-white/10 rounded-full text-text-primary placeholder-text-muted focus:border-gold-primary focus:outline-none transition-colors"
+                  className="w-full pl-12 pr-4 py-3 bg-dark-primary border border-white/10 rounded-full text-text-primary placeholder-text-muted focus:border-[var(--theme-primary)] focus:outline-none transition-colors"
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="px-6 py-3 gold-gradient rounded-full font-montserrat font-bold text-dark-primary hover:opacity-90 transition-opacity whitespace-nowrap"
+                className="px-6 py-3 rounded-full font-montserrat font-bold text-dark-primary hover:opacity-90 transition-opacity whitespace-nowrap"
+                style={{ background: 'var(--theme-gradient)' }}
               >
                 Inscrever-se →
               </button>
@@ -61,21 +63,28 @@ export default function Footer() {
         {/* Links */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4">
               <span className="text-xl">📱</span>
-              <span className="font-playfair font-bold text-gold-primary">INSTAGRAM MILIONÁRIO</span>
-            </div>
+              <span className="font-playfair font-bold text-[var(--theme-primary)]">INSTAGRAM MILIONÁRIO</span>
+            </Link>
             <p className="text-text-muted text-sm leading-relaxed">
               A plataforma premium de crescimento no Instagram para criadores de conteúdo gospel.
             </p>
           </div>
 
           <div>
-            <h4 className="font-montserrat font-bold text-text-primary text-sm mb-4">Módulos</h4>
+            <h4 className="font-montserrat font-bold text-text-primary text-sm mb-4">Conteúdo</h4>
             <ul className="space-y-2">
-              {['Começar do Zero', 'Reels Perfeitos', 'InstAqui', 'Agente IA'].map(item => (
-                <li key={item}>
-                  <a href="#modulos" className="text-text-muted text-sm hover:text-gold-primary transition-colors">{item}</a>
+              {[
+                { label: 'Módulos', to: '/modulos' },
+                { label: 'InstAqui', to: '/instaqui' },
+                { label: 'Cronograma', to: '/cronograma' },
+                { label: 'Ferramentas', to: '/ferramentas' },
+              ].map(item => (
+                <li key={item.to}>
+                  <Link to={item.to} className="text-text-muted text-sm hover:text-[var(--theme-primary)] transition-colors">
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -84,9 +93,16 @@ export default function Footer() {
           <div>
             <h4 className="font-montserrat font-bold text-text-primary text-sm mb-4">Ferramentas</h4>
             <ul className="space-y-2">
-              {['Análise de Perfil', 'Cronograma 60 Dias', 'Virais do Nicho', 'Recursos Grátis'].map(item => (
-                <li key={item}>
-                  <a href="#analise" className="text-text-muted text-sm hover:text-gold-primary transition-colors">{item}</a>
+              {[
+                { label: 'Análise de Perfil', to: '/analise' },
+                { label: 'Virais & Inspiração', to: '/virais' },
+                { label: 'Recursos', to: '/recursos' },
+                { label: 'FAQ', to: '/faq' },
+              ].map(item => (
+                <li key={item.to}>
+                  <Link to={item.to} className="text-text-muted text-sm hover:text-[var(--theme-primary)] transition-colors">
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -96,12 +112,12 @@ export default function Footer() {
             <h4 className="font-montserrat font-bold text-text-primary text-sm mb-4">Perfis</h4>
             <ul className="space-y-2">
               <li>
-                <a href="https://instagram.com/felipevitoriacantor" target="_blank" rel="noopener noreferrer" className="text-text-muted text-sm hover:text-gold-primary transition-colors">
+                <a href="https://instagram.com/felipevitoriacantor" target="_blank" rel="noopener noreferrer" className="text-text-muted text-sm hover:text-[var(--theme-primary)] transition-colors">
                   🎤 Felipe Vitória Cantor
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com/tecladofelipevitoria" target="_blank" rel="noopener noreferrer" className="text-text-muted text-sm hover:text-gold-primary transition-colors">
+                <a href="https://instagram.com/tecladofelipevitoria" target="_blank" rel="noopener noreferrer" className="text-text-muted text-sm hover:text-[var(--theme-primary)] transition-colors">
                   🎹 Teclado Felipe Vitória
                 </a>
               </li>
@@ -119,7 +135,7 @@ export default function Footer() {
           </p>
           <button
             onClick={scrollToTop}
-            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-gold-primary hover:border-gold-primary/30 transition-all"
+            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-[var(--theme-primary)] hover:border-[var(--theme-primary)]/30 transition-all"
           >
             <ArrowUp size={18} />
           </button>

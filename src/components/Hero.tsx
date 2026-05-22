@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Play, BarChart3 } from 'lucide-react';
 
@@ -16,8 +17,8 @@ export default function Hero() {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/3 left-1/4 w-64 h-64 bg-gold-secondary/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[var(--theme-primary)]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/3 left-1/4 w-64 h-64 bg-[var(--theme-secondary)]/5 rounded-full blur-3xl" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 text-center">
         <motion.div
@@ -30,9 +31,9 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-primary/10 border border-gold-primary/20 text-gold-primary text-sm mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--theme-primary)]/10 border border-[var(--theme-primary)]/20 text-[var(--theme-primary)] text-sm mb-8"
           >
-            <span className="w-2 h-2 bg-gold-primary rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-[var(--theme-primary)] rounded-full animate-pulse" />
             Atualizado com o Algoritmo 2026
           </motion.div>
 
@@ -49,29 +50,30 @@ export default function Hero() {
           <p className="max-w-3xl mx-auto text-lg sm:text-xl text-text-secondary leading-relaxed mb-10">
             Estratégia baseada no algoritmo real de 2026. Para cantores, músicos e adoradores 
             que querem alcançar almas — e escalar sua presença nas redes sociais{' '}
-            <span className="text-gold-primary font-semibold">com propósito.</span>
+            <span className="text-[var(--theme-primary)] font-semibold">com propósito.</span>
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a
-              href="#modulos"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-3 px-8 py-4 font-montserrat font-bold text-dark-primary gold-gradient rounded-full text-lg shadow-xl shadow-gold-primary/20 hover:shadow-gold-primary/40 transition-shadow w-full sm:w-auto justify-center"
-            >
-              <Play size={20} fill="currentColor" />
-              Começar do Zero no Instagram
-            </motion.a>
-            <motion.a
-              href="#analise"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-3 px-8 py-4 font-montserrat font-semibold text-text-primary border-2 border-white/20 rounded-full text-lg hover:border-gold-primary/50 hover:bg-gold-primary/5 transition-all w-full sm:w-auto justify-center"
-            >
-              <BarChart3 size={20} />
-              Analisar Meu Perfil Agora
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/modulos"
+                className="flex items-center gap-3 px-8 py-4 font-montserrat font-bold text-dark-primary rounded-full text-lg w-full sm:w-auto justify-center"
+                style={{ background: 'var(--theme-gradient)', boxShadow: '0 4px 30px var(--theme-shadow)' }}
+              >
+                <Play size={20} fill="currentColor" />
+                Começar do Zero no Instagram
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/analise"
+                className="flex items-center gap-3 px-8 py-4 font-montserrat font-semibold text-text-primary border-2 border-white/20 rounded-full text-lg hover:border-[var(--theme-primary)]/50 hover:bg-[var(--theme-primary)]/5 transition-all w-full sm:w-auto justify-center"
+              >
+                <BarChart3 size={20} />
+                Analisar Meu Perfil Agora
+              </Link>
+            </motion.div>
           </div>
 
           {/* Trust Indicators */}
@@ -103,8 +105,8 @@ export default function Hero() {
         transition={{ repeat: Infinity, duration: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <div className="w-6 h-10 rounded-full border-2 border-gold-primary/30 flex items-start justify-center p-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-gold-primary" />
+        <div className="w-6 h-10 rounded-full border-2 border-[var(--theme-primary)]/30 flex items-start justify-center p-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-primary)]" />
         </div>
       </motion.div>
     </section>

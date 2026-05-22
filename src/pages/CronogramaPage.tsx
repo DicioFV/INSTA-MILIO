@@ -1,0 +1,41 @@
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+import CronogramaSection from '../components/CronogramaSection';
+import PlanoConteudo from '../components/PlanoConteudo';
+import SeriesSection from '../components/SeriesSection';
+
+export default function CronogramaPage() {
+  return (
+    <div className="pt-20">
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-text-muted hover:text-[var(--theme-primary)] transition-colors"
+        >
+          <ArrowLeft size={18} />
+          Voltar para Home
+        </Link>
+      </div>
+
+      {/* Page Title */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 text-center">
+        <h1 className="font-playfair text-4xl sm:text-5xl font-bold text-text-primary mb-4">
+          📅 Cronograma <span className="text-[var(--theme-primary)]">60 Dias</span>
+        </h1>
+        <p className="text-text-secondary max-w-2xl mx-auto">
+          Seu plano completo de conteúdo. Marque cada dia como feito e acompanhe seu progresso.
+        </p>
+      </div>
+
+      {/* Content Plan by Profile */}
+      <PlanoConteudo />
+
+      {/* 60 Days Schedule */}
+      <CronogramaSection />
+
+      {/* Fixed Series */}
+      <SeriesSection />
+    </div>
+  );
+}
